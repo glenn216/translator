@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <RepositoryUrl>https://github.com/glenn216/translator</RepositoryUrl>
+    <Copyright>Copyright (c) 2021 Glenn Alon</Copyright>
+    <Product>Translator</Product>
+    <Company />
+    <Authors>Glenn Alon</Authors>
+    <Description>A multilingual translation service.</Description>    
+  </PropertyGroup>
+
+</Project>
