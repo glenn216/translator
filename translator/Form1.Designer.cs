@@ -79,6 +79,7 @@ namespace translator
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
+            "Auto",
             "English",
             "Filipino",
             "Japanese",
@@ -87,7 +88,7 @@ namespace translator
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(167, 23);
             this.comboBox1.TabIndex = 1;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // textBox1
             // 
@@ -97,7 +98,7 @@ namespace translator
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(417, 292);
             this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
             // label1
             // 
@@ -144,7 +145,7 @@ namespace translator
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(167, 23);
             this.comboBox2.TabIndex = 1;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -159,7 +160,7 @@ namespace translator
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button1.Location = new System.Drawing.Point(758, 391);
             this.button1.Name = "button1";
@@ -167,7 +168,7 @@ namespace translator
             this.button1.TabIndex = 4;
             this.button1.Text = "TRANSLATE";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // Form1
             // 

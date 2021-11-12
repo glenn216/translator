@@ -13,7 +13,7 @@
     <Company />
     <Authors>Glenn Alon</Authors>
     <Description>A multilingual translation service.</Description>
-    <Version>1.0.1.0</Version>    
+    <Version>1.0.2.0</Version>    
   </PropertyGroup>
 
 </Project>

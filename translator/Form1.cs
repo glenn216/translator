@@ -26,11 +26,12 @@ namespace translator
 {
     public partial class Form1 : Form
     {
-        public string word { get; set; }
-        public string a { get; set; }
-        public string b { get; set; }
-        public string i { get; set; }
-        public string j { get; set; }
+        public string Word { get; set; }
+        public string A { get; set; }
+        public string B { get; set; }
+        public string I { get; set; }
+        public string J { get; set; }
+        private const int StartIndex = 4;
 
         public Form1()
         {
@@ -44,88 +45,61 @@ namespace translator
             try
             {
                 string result = httpClient.GetStringAsync(url).Result;
-                result = result[4..result.IndexOf("\"", 4, StringComparison.Ordinal)];
-                string utfResult;
-                byte[] bytes = Encoding.Default.GetBytes(result);
-                utfResult = Encoding.UTF8.GetString(bytes);
-                return utfResult;
+                result = result[StartIndex..result.IndexOf("\"", StartIndex, StringComparison.Ordinal)];
+                return result;
             }
             catch
             {
                 return "Error!";
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            string result = Translate(word, i, j);
-            string decodedResult;
-            byte[] bytes = Encoding.Default.GetBytes(result);
-            decodedResult = Encoding.UTF8.GetString(bytes);
-            textBox2.Text = decodedResult;
+            string result = Translate(Word, I, J); // Translate(WORD, FROM, TO)
+            textBox2.Text = result; // Display the translated output into textBox2.
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English");
-            comboBox2.SelectedIndex = comboBox2.Items.IndexOf("Filipino");
+            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English"); // Set the default language translated FROM. Refer to line 41 for more information.
+            comboBox2.SelectedIndex = comboBox2.Items.IndexOf("Filipino"); // Set the default language translated TO.
             textBox1.Text = "This is a sample text.";
-            SetLanguageFrom();
-            SetLanguageTo();
+            SetLanguageFrom(); // The string values are updated as a result of this.
+            SetLanguageTo(); // The same is applicable here.
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            word = textBox1.Text;
-        }
+        private void TextBox1_TextChanged(object sender, EventArgs e) => Word = textBox1.Text; // If the text has changed, update the string.
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetLanguageFrom();
-        }
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) => SetLanguageFrom(); // If the value of comboBox1 changes, the strings will be updated.
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetLanguageTo();
-        }
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e) => SetLanguageTo(); // The same is applicable here.
         private void SetLanguageFrom()
         {
-            a = comboBox1.GetItemText(comboBox1.SelectedItem);
+            A = comboBox1.GetItemText(comboBox1.SelectedItem);
 
-            switch (a)
+            I = A switch
             {
-                case "English":
-                    i = "en";
-                    break;
-                case "Filipino":
-                    i = "fil";
-                    break;
-                case "Japanese":
-                    i = "ja";
-                    break;
-                case "Korean":
-                    i = "ko";
-                    break;
-            }
+                "English" => "en", // If English is selected in comboBox1, I = "en".
+                "Filipino" => "fil", 
+                "Japanese" => "ja",
+                "Korean" => "ko",
+                "Auto" => "auto",
+                _ => "auto", // Set to auto-detect if comboBox1 is empty.
+            };
         }
         private void SetLanguageTo()
         {
-            b = comboBox2.GetItemText(comboBox2.SelectedItem);
+            B = comboBox2.GetItemText(comboBox2.SelectedItem);
 
-            switch (b)
+            J = B switch
             {
-                case "English":
-                    j = "en";
-                    break;
-                case "Filipino":
-                    j = "fil";
-                    break;
-                case "Japanese":
-                    j = "ja";
-                    break;
-                case "Korean":
-                    j = "ko";
-                    break;
-            }
+                "English" => "en", // If English is selected in comboBox2, J = "en".
+                "Filipino" => "fil",
+                "Japanese" => "ja",
+                "Korean" => "ko",
+                _ => "en", // Set to English if comboBox2 is empty.
+            };
         }
     }
 }
+
