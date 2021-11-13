@@ -1,0 +1,2 @@
+# translator
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7bdceb2994043719f667b71aa1501fb)](https://app.codacy.com/gh/glenn216/translator?utm_source=github.com&utm_medium=referral&utm_content=glenn216/translator&utm_campaign=Badge_Grade_Settings)
