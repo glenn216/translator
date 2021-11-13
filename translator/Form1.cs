@@ -20,54 +20,76 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-using System.Net;
 using System.Text;
-using System.Web;
 
 namespace translator
 {
     public partial class Form1 : Form
     {
-        public string i
-        { 
-            get; 
-            set; 
-        }
-        public string j 
-        { 
-            get; 
-            set; 
-        }
+        public string word { get; set; }
+        public string a { get; set; }
+        public string b { get; set; }
+        public string i { get; set; }
+        public string j { get; set; }
 
         public Form1()
         {
             InitializeComponent();
-            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English");
-            comboBox2.SelectedIndex = comboBox2.Items.IndexOf("Filipino");
-            textBox1.Text = "This is a sample text.";
         }
 
-        public String Translate(String WORD, String FROM, String TO)
+        public static string Translate(string WORD, string FROM, string TO)
         {
             var url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={FROM}&ie=UTF8&tl={TO}&dt=t&q={Uri.EscapeDataString(WORD)}";
-            HttpClient httpClient = new HttpClient();
-             try {
-                 string result = httpClient.GetStringAsync(url).Result;
-                 result = result.Substring(4, result.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
-                 string utfResult;
-                 byte[] bytes = Encoding.Default.GetBytes(result);
-                 utfResult = Encoding.UTF8.GetString(bytes);
-                 return utfResult;
-             }
-             catch {
-                 return "Error!";
-             }
+            HttpClient httpClient = new();
+            try
+            {
+                string result = httpClient.GetStringAsync(url).Result;
+                result = result[4..result.IndexOf("\"", 4, StringComparison.Ordinal)];
+                string utfResult;
+                byte[] bytes = Encoding.Default.GetBytes(result);
+                utfResult = Encoding.UTF8.GetString(bytes);
+                return utfResult;
+            }
+            catch
+            {
+                return "Error!";
+            }
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string a = comboBox1.GetItemText(comboBox1.SelectedItem);
-            string b = comboBox2.GetItemText(comboBox2.SelectedItem);
-            string word = textBox1.Text;
+            string result = Translate(word, i, j);
+            string decodedResult;
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            decodedResult = Encoding.UTF8.GetString(bytes);
+            textBox2.Text = decodedResult;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English");
+            comboBox2.SelectedIndex = comboBox2.Items.IndexOf("Filipino");
+            textBox1.Text = "This is a sample text.";
+            SetLanguageFrom();
+            SetLanguageTo();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            word = textBox1.Text;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetLanguageFrom();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetLanguageTo();
+        }
+        private void SetLanguageFrom()
+        {
+            a = comboBox1.GetItemText(comboBox1.SelectedItem);
 
             switch (a)
             {
@@ -84,6 +106,10 @@ namespace translator
                     i = "ko";
                     break;
             }
+        }
+        private void SetLanguageTo()
+        {
+            b = comboBox2.GetItemText(comboBox2.SelectedItem);
 
             switch (b)
             {
@@ -100,12 +126,6 @@ namespace translator
                     j = "ko";
                     break;
             }
-
-            string result = Translate(word, i, j);
-            string decodedResult;
-            byte[] bytes = Encoding.Default.GetBytes(result);
-            decodedResult = Encoding.UTF8.GetString(bytes);
-            textBox2.Text = decodedResult;
         }
     }
 }

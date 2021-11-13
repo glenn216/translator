@@ -2,17 +2,18 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <RepositoryUrl>https://github.com/glenn216/translator</RepositoryUrl>
     <Copyright>Copyright (c) 2021 Glenn Alon</Copyright>
     <Product>Translator</Product>
     <Company />
     <Authors>Glenn Alon</Authors>
-    <Description>A multilingual translation service.</Description>    
+    <Description>A multilingual translation service.</Description>
+    <Version>1.0.1.0</Version>    
   </PropertyGroup>
 
 </Project>
