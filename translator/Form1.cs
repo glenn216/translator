@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-using System.Text;
+using System.Net.NetworkInformation;
 
 namespace translator
 {
@@ -36,6 +36,7 @@ namespace translator
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         public static string Translate(string WORD, string FROM, string TO)
@@ -53,10 +54,11 @@ namespace translator
                 return "Error!";
             }
         }
-        private void Button1_Click(object sender, EventArgs e)
+        private async void Button1_Click(object sender, EventArgs e)
         {
             string result = Translate(Word, I, J); // Translate(WORD, FROM, TO)
             textBox2.Text = result; // Display the translated output into textBox2.
+            await Task.Run(() => Ping()); // Checks the internet connection.
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -99,6 +101,21 @@ namespace translator
                 "Korean" => "ko",
                 _ => "en", // Set to English if comboBox2 is empty.
             };
+        }
+        public static async void Ping() 
+        {
+            try
+            {
+                using (Ping ping = new())
+                {
+                    _ = ping.Send("www.google.com").Status == IPStatus.Success;
+                }
+
+            }
+            catch (Exception)
+            {
+                _ = MessageBox.Show("Ensure that you are connected to the internet.", "Internet Connection Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
