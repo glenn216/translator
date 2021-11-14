@@ -26,18 +26,14 @@ namespace translator
 {
     public partial class Form1 : Form
     {
-        public string Word { get; set; }
-        public string A { get; set; }
-        public string B { get; set; }
-        public string I { get; set; }
-        public string J { get; set; }
+        public string? Word { get; set; }
+        public string? A { get; set; }
+        public string? B { get; set; }
+        public string? I { get; set; }
+        public string? J { get; set; }
         private const int StartIndex = 4;
 
-        public Form1()
-        {
-            InitializeComponent();
-            
-        }
+        public Form1() => InitializeComponent();
 
         public static string Translate(string WORD, string FROM, string TO)
         {
@@ -45,8 +41,8 @@ namespace translator
             HttpClient httpClient = new();
             try
             {
-                string result = httpClient.GetStringAsync(url).Result;
-                result = result[StartIndex..result.IndexOf("\"", StartIndex, StringComparison.Ordinal)];
+                string result = httpClient.GetStringAsync(url).Result; // Fetch the result from the Google Translate API.
+                result = result[StartIndex..result.IndexOf("\"", StartIndex, StringComparison.Ordinal)]; // Only the necessary string is returned.
                 return result;
             }
             catch
@@ -54,16 +50,19 @@ namespace translator
                 return "Error!";
             }
         }
-        private async void Button1_Click(object sender, EventArgs e)
+
+        private void Button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false; // Disable button to prevent multiple queries at once.
+            Task.Run(() => Ping("www.google.com", 2000)); // Ping the host for 2 seconds. Checks for an active internet connection.
             string result = Translate(Word, I, J); // Translate(WORD, FROM, TO)
             textBox2.Text = result; // Display the translated output into textBox2.
-            await Task.Run(() => Ping()); // Checks the internet connection.
+            button1.Enabled = true; // Enable the button.
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English"); // Set the default language translated FROM. Refer to line 41 for more information.
+            comboBox1.SelectedIndex = comboBox1.Items.IndexOf("English"); // Set the default language translated FROM. 
             comboBox2.SelectedIndex = comboBox2.Items.IndexOf("Filipino"); // Set the default language translated TO.
             textBox1.Text = "This is a sample text.";
             SetLanguageFrom(); // The string values are updated as a result of this.
@@ -74,7 +73,8 @@ namespace translator
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) => SetLanguageFrom(); // If the value of comboBox1 changes, the strings will be updated.
 
-        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e) => SetLanguageTo(); // The same is applicable here.
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e) => SetLanguageTo(); // The same is applicable for comboBox2.
+       
         private void SetLanguageFrom()
         {
             A = comboBox1.GetItemText(comboBox1.SelectedItem);
@@ -89,6 +89,7 @@ namespace translator
                 _ => "auto", // Set to auto-detect if comboBox1 is empty.
             };
         }
+
         private void SetLanguageTo()
         {
             B = comboBox2.GetItemText(comboBox2.SelectedItem);
@@ -102,20 +103,19 @@ namespace translator
                 _ => "en", // Set to English if comboBox2 is empty.
             };
         }
-        public static async void Ping() 
+
+        public static async Task Ping(string host, int timeout)
         {
             try
             {
-                using (Ping ping = new())
-                {
-                    _ = ping.Send("www.google.com").Status == IPStatus.Success;
-                }
+                _ = (await new Ping().SendPingAsync(host, timeout)).Status == IPStatus.Success;
 
             }
+
             catch (Exception)
             {
-                _ = MessageBox.Show("Ensure that you are connected to the internet.", "Internet Connection Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                 _ = MessageBox.Show("Ensure that you are connected to the internet.", "Internet Connection Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
         }
     }
 }
